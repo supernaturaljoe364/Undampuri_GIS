@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 4.3% Problem | Team Undampuri</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --highlight:#ff4757;
+  --solution:#2ed573;
+  --glass:rgba(0,0,0,0.88);
+  --border:1px solid rgba(255,255,255,0.15);
+}
+
+html,body{
+  margin:0;
+  background:#000;
+  font-family:'Montserrat',sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+}
+::-webkit-scrollbar{display:none}
+
+/* ===== MAP STACK ===== */
+.map-panel{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+.map-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.1s ease;
+}
+.visible{opacity:1}
+
+/* ===== READABILITY ===== */
+.vignette{
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.35) 45%,
+    rgba(0,0,0,0.55) 100%
+  );
+}
+
+
+
+.text-block {
+  background: rgba(0,0,0,0.15);
+  padding: 18px 20px;
+  border-radius: 6px;
+  transition: background 0.35s ease;
+}
+
+
+/* ===== TEXT FADE ON HOVER (IMAGE-FOCUSED MODE) ===== */
+
+/* ===== INTENTIONAL READ MODE ===== */
+
+.text {
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.text .bar,
+.text .stat {
+  opacity: 1;
+}
+
+
+/* ===== LEGEND ===== */
+.legend{
+  position:fixed;
+  bottom:40px;
+  right:40px;
+  width:300px;
+  background:rgba(0,0,0,0.9);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:8px;
+  padding:20px;
+  z-index:30;
+  opacity:0;
+  transform:translateY(10px);
+  transition:0.4s ease;
+}
+.legend.active{
+  opacity:1;
+  transform:none;
+}
+
+.legend h4{
+  font-size:0.75rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin:0 0 12px;
+  color:#eee;
+}
+
+.legend .scale{
+  height:12px;
+  border-radius:2px;
+  margin:8px 0;
+}
+
+.scale.elev{
+  background:linear-gradient(90deg,#001f3f,#0074D9,#7FDBFF);
+}
+.scale.heat{
+  background:linear-gradient(90deg,#FFDC00,#FF851B,#FF4136);
+}
+
+.legend .labels{
+  display:flex;
+  justify-content:space-between;
+  font-family:'Roboto Mono',monospace;
+  font-size:0.7rem;
+  color:#bbb;
+}
+
+.legend .row{
+  display:flex;
+  align-items:center;
+  margin-top:8px;
+  font-size:0.8rem;
+  color:#ddd;
+}
+.legend .swatch{
+  width:14px;
+  height:14px;
+  border-radius:3px;
+  margin-right:10px;
+  border:1px solid rgba(255,255,255,0.4);
+}
+/* ===== STORY ===== */
+.container{
+  position:relative;
+  z-index:20;
+  pointer-events:none;
+}
+
+.container{
+  transition: transform 0.5s ease;
+}
+
+body.map-only .container{
+  transform: translateX(-520px);
+}
+
+body.map-only .vignette{
+  background: rgba(0,0,0,0);
+}
+
+/* ===== CENTERED NARRATIVE MODE ===== */
+
+.step {
+  justify-content: center;      /* vertical */
+  padding-left: 0;              /* remove left bias */
+  text-align: center;
+}
+
+.text {
+  max-width: 760px;
+  margin: 0 auto;
+  pointer-events: auto; 
+}
+
+.hero-quote {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 28px;
+  letter-spacing: -1px;
+}
+
+.hero-quote::before,
+.hero-quote::after {
+  content: "“";
+  opacity: 0.15;
+}
+.hero-quote::after {
+  content: "”";
+}
+
+
+h1{
+  font-size:4.2rem;
+  line-height:0.95;
+  margin-bottom:20px;
+}
+h2{
+  font-size:2rem;
+  border-bottom:4px solid var(--highlight);
+  display:inline-block;
+  padding-bottom:6px;
+  margin-bottom:18px;
+}
+p{
+  font-size:1.05rem;
+  line-height:1.65;
+  color:#ddd;
+}
+
+/* ===== STATS ===== */
+.stat{
+  margin-top:20px;
+}
+.big{
+  font-family:'Roboto Mono',monospace;
+  font-size:3rem;
+  color:var(--highlight);
+}
+.label{
+  font-size:0.7rem;
+  letter-spacing:2px;
+  color:#aaa;
+  text-transform:uppercase;
+}
+.bar{
+  height:8px;
+  background:rgba(255,255,255,0.15);
+  border-radius:4px;
+  margin-top:6px;
+}
+.fill{
+  height:100%;
+  background:var(--highlight);
+}
+
+body.map-mode .text{
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.map-mode .legend{
+  opacity: 0;
+}
+
+body.map-mode .vignette{
+  background: rgba(0,0,0,0);
+}
+
+
+/* ===== MODE TOGGLE BUTTON ===== */
+.mode-toggle{
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  z-index: 50;
+
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 8px;
+
+  padding: 10px 18px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.mode-toggle:hover{
+  background: rgba(0,0,0,0.8);
+  border-color: rgba(255,255,255,0.6);
+}
+
+
+/* ===== CREDITS ===== */
+.credits{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:auto;
+}
+.credits-box{
+  background:var(--glass);
+  border:var(--border);
+  border-radius:10px;
+  padding:50px 70px;
+  text-align:center;
+}
+.focus-toggle.hidden{
+  display: none !important;
+}
+
+.credits-box h1{font-size:3rem}
+.team{
+  list-style:none;
+  padding:0;
+  margin:30px 0;
+}
+.team li{margin:8px 0}
+a{
+  color:#fff;
+  text-decoration:none;
+  border:1px solid #fff;
+  padding:12px 26px;
+  display:inline-block;
+}
+a:hover{background:#fff;color:#000}
+</style>
+</head>
+
+<body>
+
+<!-- MAPS -->
+<div class="map-panel">
+  <img id="satellite" src="satellite.png" class="map-image visible">
+  <img id="elevation" src="elevation.png" class="map-image">
+  <img id="heat" src="heat.png" class="map-image">
+  <img id="risk" src="risk.png" class="map-image">
+</div>
+
+<div class="vignette"></div>
+<div class="legend" id="legend"></div>
+
+<button id="modeToggle" class="mode-toggle">
+  View Map
+</button>
+
+
+<!-- STORY -->
+<div class="container">
+
+  <section class="step active" data-map="satellite" data-legend="intro">
+    <div class="text">
+
+      <div class="hero-quote">
+      “Nearly half of Kakkanad is built on land that resists drainage and traps heat.”
+      </div>
+
+      <p>
+      Kakkanad’s growth is not failing because of poor maintenance.
+      It is failing because development ignored the terrain it was built on.
+      </p>
+
+
+      <p>
+      However, this growth has occurred on land that was never engineered
+      for large-scale impervious cover.
+      </p>
+
+      <p>
+      The result is not a single disaster, but a <strong>structural urban failure</strong> —
+      where geography, heat, and drainage interact in ways conventional planning ignores.
+      </p>
+
+      <p style="opacity:0.8; font-size:0.95rem;">
+      This analysis isolates the <strong>exact locations</strong> where those failures overlap.
+      </p>
+
+    </div>
+  </section>
+
+  <section class="step" data-map="elevation" data-legend="elevation">
+    <div class="text">
+      <h2>01. Drainage Basins: Terrain Constraint</h2>
+      
+          <div class="hero-quote">
+          “40% of Kakkanad sits inside natural drainage basins.”
+          </div>
+          <p>
+        Using SRTM elevation data, we classified terrain below
+        <strong>12 meters above mean sea level</strong> as
+        <strong>natural drainage basins</strong>.
+        </p>
+
+        <p>
+        These are not floodplains.
+        They are low-relief zones where gravity slows runoff and
+        forces water to accumulate horizontally.
+        </p>
+
+      <div class="stat-grid">
+        <div class="stat-item">
+          <span class="stat-big" style="color:#4a69bd;">40.1%</span>
+          <span class="stat-label">AREA BELOW 12 m ELEVATION</span>
+
+        </div>
+        <div class="stat-item">
+          <span class="stat-big" style="color:#4a69bd;">4 m</span>
+          <span class="stat-label">DRAINAGE FAILURE THRESHOLD</span>
+        </div>
+      </div>
+
+      <p>
+      These zones are <strong>not floodplains</strong>.
+      They are <strong>topographic sinks</strong> —
+      areas where gravity naturally directs surface runoff.
+      </p>
+
+      <p>
+      When impervious surfaces are introduced here,
+      water has no vertical or lateral escape path.
+      This creates chronic <strong>water stagnation</strong>,
+      not episodic river flooding.
+      </p>
+
+      <div class="stat">
+        <div class="big">776.9 ha</div>
+        <div class="label">LOW-ELEVATION DRAINAGE SINKS</div>
+        <div class="bar"><div class="fill" style="width:18.6%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" data-map="heat" data-legend="heat">
+    <div class="text">
+      <h2>02. The Furnace: Heat Retention</h2>
+
+
+      <div class = "hero-quote">“Heat in Kakkanad does not leave at night.”</div>
+      <p>
+      Next, we analyzed land surface temperature using Landsat 8
+      thermal infrared data.
+      </p>
+
+      <p>
+      This analysis isolates land surfaces exceeding
+      <strong>37°C</strong> — the threshold where
+      concrete-dominated zones begin retaining heat
+      well past sunset.
+      </p>
+
+
+
+      <div class="stat-grid">
+        <div class="stat-item">
+          <span class="stat-big" style="color:#f1c40f;">35.6%</span>
+          <span class="stat-label">AREA ABOVE 37°C SURFACE TEMP</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-big" style="color:#f1c40f;">37°C</span>
+          <span class="stat-label">SURFACE TEMPERATURE</span>
+        </div>
+      </div>
+
+      <p>
+      These zones correspond strongly with
+      high concrete density, asphalt cover, and reduced vegetation.
+      </p>
+
+      <p>
+      Unlike air temperature, surface heat persists after sunset,
+      increasing evaporation stress, material degradation,
+      and thermal discomfort.
+      </p>
+
+      <div class="stat">
+        <div class="big">1482 ha</div>
+        <div class="label">HIGH HEAT RETENTION ZONES</div>
+        <div class="bar"><div class="fill" style="width:35.6%"></div></div>
+
+      </div>
+    </div>
+  </section>
+  
+  <section class="step" data-map="risk" data-legend="risk">
+    <div class="text">
+      <h2>03. Double Risk: Structural Failure Zones</h2>
+      
+      <div class="hero-quote">
+      “This is not a hotspot. It is a structural failure.”
+      </div>
+
+      <p>
+      When low-elevation drainage basins intersect with
+      high heat-retention surfaces, the result is not
+      a localized issue — it is a structural failure.
+      </p>
+
+      <p>
+      <strong>In Kakkanad, a substantial portion of the ward falls into this overlap zone.</strong>.
+      </p>
+
+
+      <p>
+      We spatially overlaid:
+      <ul style="margin-left:18px; opacity:0.9;">
+        <li>Low-elevation drainage sinks (bottom 35%)</li>
+        <li>High heat-retention surfaces (top 30%)</li>
+      </ul>
+      </p>
+
+      
+
+      <div class="stat-grid">
+  <div class="stat-item">
+    <span class="stat-big" style="color:#ff4757;">≈ 30–35%</span>
+    <span class="stat-label">OF KAKKANAD (OVERLAP ZONE)</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-big" style="color:#ff4757;">1674 ha</span>
+    <span class="stat-label">DOUBLE-RISK AREA</span>
+  </div>
+</div>
+
+
+      <p>
+        This means a substantial portion of the urban fabric is built
+        on land that simultaneously resists drainage and
+        amplifies thermal stress.
+        </p>
+
+        <p>
+        This is not an anomaly.
+        It is a predictable outcome of dense construction
+        over terrain that was never engineered for it.
+        </p>
+
+
+      <div class="stat">
+        <div class="big">1674 ha</div>
+        <div class="label">COMPOUNDED FAILURE ZONE</div>
+        <div class="bar"><div class="fill" style="width:33%"></div></div>
+      </div>
+
+    <p style="opacity:0.85;">
+    This expanded footprint reflects the full administrative extent of Kakkanad,
+    not a localized sub-zone.
+    </p>
+    </div>
+  </section>
+
+  <section class="step" data-map="risk" data-legend="solution">
+    <div class="text">
+      <h2>The Fix: Surgical Retrofit</h2>
+
+      <p>
+      This is not a city-wide problem.
+      It is a <strong>precision problem</strong>.
+      </p>
+
+      <p>
+      Over <strong>1,670 hectares</strong> of Kakkanad experience compounded
+      drainage failure and heat stress.
+      </p>
+
+      <div class="stat-grid">
+        <div class="stat-item">
+          <span class="stat-big" style="color:#2ed573;">20%</span>
+          <span class="stat-label">SURFACE CONVERSION TARGET</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-big" style="color:#2ed573;">≈ -2°C</span>
+          <span class="stat-label">PROJECTED COOLING</span>
+        </div>
+      </div>
+
+      <p>
+      A partial conversion of impervious surfaces
+      to permeable paving, tree canopy, and infiltration corridors
+      would restore drainage while reducing heat retention.
+      </p>
+
+      <p>
+      This approach avoids blanket redevelopment
+      and focuses intervention where the system fails most.
+      </p>
+
+      <div class="stat">
+        <div class="big" style="color:var(--solution)">−2°C</div>
+        <div class="label">Projected Cooling</div>
+        <div class="bar"><div class="fill" style="width:60%;background:var(--solution)"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="credits" data-map="risk" data-legend="none">
+    <div class="credits-box">
+      <h1>TEAM UNDAMPURI</h1>
+      <ul class="team">
+        <li>Joshua — Team Lead</li>
+        <li>Dane John</li>
+        <li>Vaishak Menon</li>
+        <li>Rohit Mohandas</li>
+      </ul>
+      <a href="https://github.com/your-repo-link" target="_blank">GitHub Repository</a>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const legend=document.getElementById("legend");
+const legends = {
+  intro: `
+    <h4>Context</h4>
+    <p style="font-size:0.75rem;color:#bbb">
+      Satellite-derived spatial analysis of Kakkanad ward.
+    </p>
+  `,
+
+  elevation: `
+    <h4>Elevation (m)</h4>
+    <div class="scale elev"></div>
+    <div class="labels">
+      <span>0</span><span>4</span><span>8+</span>
+    </div>
+    <div class="row">
+      <div class="swatch" style="background:#0074D9"></div>
+      Drainage sink (&lt; 4 m)
+    </div>
+    <p style="font-size:0.7rem;color:#888;margin-top:6px">
+      Indicates stagnation risk, not river flooding depth.
+    </p>
+  `,
+
+  heat: `
+    <h4>Surface Temperature (°C)</h4>
+    <div class="scale heat"></div>
+    <div class="labels">
+      <span>35</span><span>37</span><span>40+</span>
+    </div>
+    <div class="row">
+      <div class="swatch" style="background:#FF4136"></div>
+      Heat island (&gt; 37 °C)
+    </div>
+    <p style="font-size:0.7rem;color:#888;margin-top:6px">
+      Land Surface Temperature (LST), not air temperature.
+    </p>
+  `,
+
+  risk: `
+    <h4>Double Risk Zone</h4>
+    <div class="row">
+      <div class="swatch" style="background:#ff4757"></div>
+      Low elevation + high heat
+    </div>
+    <p style="font-size:0.7rem;color:#888;margin-top:6px">
+      Structural failure zones requiring priority intervention.
+    </p>
+  `,
+
+  solution: `
+    <h4>Intervention</h4>
+    <div class="row">
+      <div class="swatch" style="background:#2ed573"></div>
+      Green retrofit target
+    </div>
+    <p style="font-size:0.7rem;color:#888;margin-top:6px">
+      Projected cooling and drainage restoration scenario.
+    </p>
+  `
+};
+
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
+    e.target.classList.add("active");
+
+    document.querySelectorAll(".map-image").forEach(img=>img.classList.remove("visible"));
+    const id=e.target.dataset.map;
+    if(id) document.getElementById(id).classList.add("visible");
+
+    const key=e.target.dataset.legend;
+    if(key&&legends[key]){
+      legend.innerHTML=legends[key];
+      legend.classList.add("active");
+    }else{
+      legend.classList.remove("active");
+    }
+  });
+},{threshold:0.55});
+
+document.querySelectorAll(".step").forEach(s=>observer.observe(s));
+const modeBtn = document.getElementById("modeToggle");
+
+modeBtn.onclick = () => {
+  document.body.classList.toggle("map-mode");
+
+  modeBtn.textContent = document.body.classList.contains("map-mode")
+    ? "Pan to Text"
+    : "View Map";
+};
+
+
+
+</script>
+
+</body>
+</html>
