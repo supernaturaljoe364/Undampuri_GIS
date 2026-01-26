@@ -170,6 +170,19 @@ body.map-only .vignette{
   padding-left: 0;              /* remove left bias */
   text-align: center;
 }
+/* ===== HERO OPENING SPACING ===== */
+.step[data-legend="intro"]{
+  min-height: 140vh;        /* forces longer scroll */
+  display: flex;
+  align-items: center;     /* true vertical centering */
+}
+
+/* Opening narrative spacing */
+.step[data-legend="intro"] p{
+  margin-top: 22px;
+}
+
+
 
 .text {
   max-width: 760px;
@@ -180,10 +193,11 @@ body.map-only .vignette{
 .hero-quote {
   font-size: 3.2rem;
   font-weight: 800;
-  line-height: 1.05;
-  margin-bottom: 28px;
+  line-height: 1.25;          /* increased from 1.05 */
+  margin-bottom: 48px;        /* more breathing room */
   letter-spacing: -1px;
 }
+
 
 .hero-quote::before,
 .hero-quote::after {
