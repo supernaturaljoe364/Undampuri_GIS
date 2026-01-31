@@ -311,34 +311,122 @@ Export.image.toDrive({
 </section>
 
         <section id="recommendations">
-    <h2>8. Strategic Interventions</h2>
-    <p>Based on the hotspot analysis (Figure 4) and spectral correlation data (Figure 5), we propose a targeted "Blue-Green-Grey" retrofit strategy for Kakkanad.</p>
+    <h2>8. The "Kakkanad Blue-Green-Grey" Resilience Framework</h2>
+    
+    <div style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.02) 100%); border-left: 5px solid #3498db; padding: 20px; margin-bottom: 30px; border-radius: 8px;">
+        <h3 style="margin-top: 0; color: #3498db; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-layer-group"></i> Core Concept: Zoned Mitigation
+        </h3>
+        <p style="color: #ddd; line-height: 1.6; font-size: 1rem; margin-bottom: 0;">
+            Moving beyond isolated interventions, we propose a <strong>spatial strategy</strong> that overlays our Thermal Hotspot data with Land Use signatures. This creates three distinct intervention zones:
+        </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px;">
+        
+        <div style="background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; border: 1px solid #666; transition: transform 0.3s ease;">
+            <div style="height: 180px; overflow: hidden;">
+                <img src="zone_grey.png" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" alt="Grey Zone Map">
+            </div>
+            <div style="padding: 20px;">
+                <strong style="color: #bdc3c7; font-size: 1.2rem; display: block; margin-bottom: 5px;">
+                    <i class="fa-solid fa-industry"></i> Grey Zone
+                </strong>
+                <p style="margin: 0; font-size: 0.9rem; color: #aaa;">
+                    <strong>Target:</strong> Infopark (High NDBI)<br>
+                    <strong>Strategy:</strong> Architectural Retrofitting
+                </p>
+            </div>
+        </div>
+
+        <div style="background: rgba(46, 204, 113, 0.05); border-radius: 12px; overflow: hidden; border: 1px solid #27ae60; transition: transform 0.3s ease;">
+            <div style="height: 180px; overflow: hidden;">
+                <img src="zone_green.png" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" alt="Green Zone Map">
+            </div>
+            <div style="padding: 20px;">
+                <strong style="color: #2ecc71; font-size: 1.2rem; display: block; margin-bottom: 5px;">
+                    <i class="fa-solid fa-road"></i> Green Zone
+                </strong>
+                <p style="margin: 0; font-size: 0.9rem; color: #aaa;">
+                    <strong>Target:</strong> Transport Corridors<br>
+                    <strong>Strategy:</strong> Shading Infrastructure
+                </p>
+            </div>
+        </div>
+
+        <div style="background: rgba(52, 152, 219, 0.05); border-radius: 12px; overflow: hidden; border: 1px solid #3498db; transition: transform 0.3s ease;">
+            <div style="height: 180px; overflow: hidden;">
+                <img src="zone_blue.png" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" alt="Blue Zone Map">
+            </div>
+            <div style="padding: 20px;">
+                <strong style="color: #3498db; font-size: 1.2rem; display: block; margin-bottom: 5px;">
+                    <i class="fa-solid fa-water"></i> Blue Zone
+                </strong>
+                <p style="margin: 0; font-size: 0.9rem; color: #aaa;">
+                    <strong>Target:</strong> Edachira Wetlands<br>
+                    <strong>Strategy:</strong> Conservation Policy
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <h3 style="margin-bottom: 25px; font-size: 1.3rem; color: #ccc; border-bottom: 1px solid #444; padding-bottom: 10px;">
+        Strategic Intervention Matrix
+    </h3>
     
     <div class="rec-grid">
-        <div class="rec-card">
-            <i class="fa-solid fa-tree" style="color: #2ed573; font-size: 2rem; margin-bottom: 10px;"></i>
-            <h4>The Green Grid</h4>
-            <p style="font-size: 0.9rem; color: #aaa;">
-                <strong>Target:</strong> Zones with NDBI > 0.1<br>
-                <strong>Action:</strong> Mandate "Green Corridors" along the Seaport-Airport Road. Our NDVI data proves that a 20% increase in canopy cover correlates to a 3°C drop in LST.
-            </p>
-        </div>
-
-        <div class="rec-card">
-            <i class="fa-solid fa-droplet" style="color: #4a69bd; font-size: 2rem; margin-bottom: 10px;"></i>
-            <h4>The Blue Buffer</h4>
-            <p style="font-size: 0.9rem; color: #aaa;">
-                <strong>Target:</strong> Low Elevation (< 12m) Zones<br>
-                <strong>Action:</strong> Strictly preserve the Edachira wetlands. These act as natural "evaporative coolers," mitigating the heat radiating from Infopark's concrete mass.
-            </p>
-        </div>
-
-        <div class="rec-card">
+        <div class="rec-card" style="border-top: 3px solid #bdc3c7;">
             <i class="fa-solid fa-building" style="color: #f1c40f; font-size: 2rem; margin-bottom: 10px;"></i>
             <h4>Cool Albedo Retrofit</h4>
             <p style="font-size: 0.9rem; color: #aaa;">
-                <strong>Target:</strong> Industrial Hotspots (> 37°C)<br>
-                <strong>Action:</strong> Implement High-Albedo (White) Roofs on all industrial warehouses. This simple intervention reflects 80% of solar incidence, directly reducing the "Furnace Effect."
+                <strong>Zone:</strong> Grey (Infopark)<br>
+                <strong>Action:</strong> Mandate High-Albedo (SRI > 78) white roofing for warehouses. Reduces internal cooling loads by 20%.
+            </p>
+        </div>
+
+        <div class="rec-card" style="border-top: 3px solid #bdc3c7;">
+            <i class="fa-solid fa-road" style="color: #95a5a6; font-size: 2rem; margin-bottom: 10px;"></i>
+            <h4>Permeable Paving</h4>
+            <p style="font-size: 0.9rem; color: #aaa;">
+                <strong>Zone:</strong> Parking Lots<br>
+                <strong>Action:</strong> Replace 40% of asphalt with porous blocks to allow water infiltration and evaporative surface cooling.
+            </p>
+        </div>
+
+        <div class="rec-card" style="border-top: 3px solid #2ecc71;">
+            <i class="fa-solid fa-route" style="color: #2ecc71; font-size: 2rem; margin-bottom: 10px;"></i>
+            <h4>The Green Corridor</h4>
+            <p style="font-size: 0.9rem; color: #aaa;">
+                <strong>Zone:</strong> Green (Seaport Rd)<br>
+                <strong>Action:</strong> Continuous canopy planting. Our NDVI model predicts a 3°C drop in ambient street temperature with 20% more cover.
+            </p>
+        </div>
+
+        <div class="rec-card" style="border-top: 3px solid #2ecc71;">
+            <i class="fa-solid fa-leaf" style="color: #27ae60; font-size: 2rem; margin-bottom: 10px;"></i>
+            <h4>Bio-Facades</h4>
+            <p style="font-size: 0.9rem; color: #aaa;">
+                <strong>Zone:</strong> IT Towers (West Facing)<br>
+                <strong>Action:</strong> Install wire-mesh climbers on western walls to intercept peak afternoon solar radiation.
+            </p>
+        </div>
+
+        <div class="rec-card" style="border-top: 3px solid #3498db;">
+            <i class="fa-solid fa-droplet" style="color: #3498db; font-size: 2rem; margin-bottom: 10px;"></i>
+            <h4>Wetland Conservation</h4>
+            <p style="font-size: 0.9rem; color: #aaa;">
+                <strong>Zone:</strong> Blue (Edachira)<br>
+                <strong>Policy:</strong> Strict "No-Build" buffer of 50m around water bodies to preserve the region's natural heat sink.
+            </p>
+        </div>
+
+        <div class="rec-card" style="border-top: 3px solid #3498db;">
+            <i class="fa-solid fa-gavel" style="color: #e67e22; font-size: 2rem; margin-bottom: 10px;"></i>
+            <h4>Smart Heat Zoning</h4>
+            <p style="font-size: 0.9rem; color: #aaa;">
+                <strong>Zone:</strong> Future Development<br>
+                <strong>Policy:</strong> Integrate our "Hotspot Map" into the municipal plan. New permits in Red Zones must prove "Net-Zero Thermal Impact."
             </p>
         </div>
     </div>
