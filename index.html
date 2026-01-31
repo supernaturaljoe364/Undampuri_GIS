@@ -438,14 +438,29 @@ Export.image.toDrive({
 
 </section>
 
-        <footer>
-            <p>Urban Heat Island Challenge | Mapathon 2026</p>
-            <p>&copy; Team Undampuri</p>
+        <footer style="margin-top: 100px; border-top: 1px solid #333; padding: 50px 20px; text-align: center; background: rgba(0,0,0,0.2);">
+            
+            <h3 style="color: #fff; margin-bottom: 10px;">End of Analysis</h3>
+            <p style="color: #888; margin-bottom: 30px; font-size: 0.9rem;">
+                Challenge 4: Urban Heat Island | RSET, Kakkanad
+            </p>
+
+            <a href="https://github.com/supernaturaljoe364/Undampuri_GIS" target="_blank" style="text-decoration: none;">
+                <div style="display: inline-flex; align-items: center; gap: 10px; background: #333; color: #fff; padding: 12px 25px; border-radius: 30px; border: 1px solid #555; transition: all 0.3s ease;" 
+                     onmouseover="this.style.background='#fff'; this.style.color='#000';" 
+                     onmouseout="this.style.background='#333'; this.style.color='#fff';">
+                    <i class="fa-brands fa-github" style="font-size: 1.2rem;"></i>
+                    <span style="font-weight: bold;">View Source Code on GitHub</span>
+                </div>
+            </a>
+
+            <p style="margin-top: 40px; font-size: 0.8rem; color: #444;">
+                &copy; 2026 Urban Resilience Team. Built with QGIS 3.28 & Google Earth Engine.
+            </p>
+
         </footer>
 
-    </main>
-
-    <script>
+    </main> <script>
         const navLinks = document.querySelectorAll('.nav-links a');
         const sections = document.querySelectorAll('section');
 
@@ -466,25 +481,4 @@ Export.image.toDrive({
         });
     </script>
 </body>
-<footer style="margin-top: 100px; border-top: 1px solid #333; padding: 50px 20px; text-align: center; background: rgba(0,0,0,0.2);">
-        
-        <h3 style="color: #fff; margin-bottom: 10px;">End of Analysis</h3>
-        <p style="color: #888; margin-bottom: 30px; font-size: 0.9rem;">
-            Challenge 4: Urban Heat Island | RSET, Kakkanad
-        </p>
-
-        <a href="YOUR_GITHUB_LINK_HERE" target="_blank" style="text-decoration: none;">
-            <div style="display: inline-flex; align-items: center; gap: 10px; background: #333; color: #fff; padding: 12px 25px; border-radius: 30px; border: 1px solid #555; transition: all 0.3s ease;" 
-                 onmouseover="this.style.background='#fff'; this.style.color='#000';" 
-                 onmouseout="this.style.background='#333'; this.style.color='#fff';">
-                <i class="fa-brands fa-github" style="font-size: 1.2rem;"></i>
-                <span style="font-weight: bold;">View Source Code on GitHub</span>
-            </div>
-        </a>
-
-        <p style="margin-top: 40px; font-size: 0.8rem; color: #444;">
-            &copy; 2026 Urban Resilience Team. Built with QGIS 3.28 & Google Earth Engine.
-        </p>
-
-    </footer>
 </html>
