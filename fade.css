@@ -1,0 +1,23 @@
+/* fade.css - Apply to main site */
+
+/* 1. Set background immediately to match your dark theme (prevents white flash) */
+html {
+    background-color: #0f1115;
+}
+
+/* 2. Animate the body opacity */
+body {
+    animation: mainPageFadeIn 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 3. The Animation Keyframes */
+@keyframes mainPageFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); /* Optional: subtle slide-up effect */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

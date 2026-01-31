@@ -1,0 +1,134 @@
+:root {
+    --bg-dark: #0f1115;
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+    --accent-blue: #58a6ff;
+    --font-ui: 'Inter', sans-serif;
+    --font-code: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-ui);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CONTAINER */
+.viewport {
+    width: 100%;
+    max-width: 800px;
+    padding: 2rem;
+    position: relative;
+    text-align: center;
+}
+
+/* SLIDE LOGIC */
+.slide {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.slide.active {
+    display: block;
+    opacity: 1;
+}
+
+/* TYPOGRAPHY */
+.overline {
+    font-family: var(--font-code);
+    color: var(--accent-blue);
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+    width: 100px;
+    margin: 2rem auto;
+}
+
+/* UTILITY: SKIP BUTTON */
+.skip-btn {
+    position: absolute;
+    top: -100px; 
+    right: 0;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+.skip-btn:hover { opacity: 1; color: var(--accent-blue); }
+
+/* PROGRESS BAR */
+.progress-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #161b22;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--accent-blue);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* ANIMATIONS */
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    h1 { font-size: 2.2rem; }
+    .skip-btn { top: 20px; right: 20px; position: fixed; }
+}
+
+/* --- NEW: MEMBER BADGES --- */
+.member-badge {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.05);
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: #c9d1d9;
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.member-badge:hover {
+    border-color: var(--accent-blue);
+    color: #fff;
+    transform: translateY(-2px);
+}

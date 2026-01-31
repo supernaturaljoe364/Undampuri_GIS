@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UHI Analysis: Kakkanad | Team Undampuri</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fade.css"> 
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="brand">
+            <div class="logo-icon"><i class="fa-solid fa-temperature-high"></i></div>
+            <div class="logo-text">
+                <h3>UHI Analysis</h3>
+                <span>Kakkanad Case Study</span>
+            </div>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="#overview">0. Project Overview</a></li>
+            <li><a href="#intro" class="active">1. The Phenomenon</a></li>
+            <li><a href="#data">2. Data & Study Area</a></li>
+            <li><a href="#lst">3. LST Implementation</a></li>
+            <li><a href="#indices">4. NDVI & NDBI Indices</a></li>
+            <li><a href="#export">5. QGIS Integration</a></li>
+            <li><a href="#hotspot">6. Hotspot Analysis</a></li>
+            <li><a href="#stats">7. Zonal Statistics</a></li>
+            <li><a href="#recommendations">8. Strategic Interventions</a></li>
+        </ul>
+
+        <div class="team-credit">
+            <p>Team Undampuri</p>
+        </div>
+    </nav>
+
+    <main class="content">
+        
+        <header>
+            <h1>Urban Heat Island Assessment</h1>
+            <p class="subtitle">A Remote Sensing Approach using Landsat 8 & Sentinel-2</p>
+            <div class="tags">
+                <span class="tag">Google Earth Engine</span>
+                <span class="tag">QGIS</span>
+                <span class="tag">Spatial Analysis</span>
+            </div>
+        </header>
+
+        <section id="overview">
+            <h2>0. Project Overview</h2>
+            <p>This study quantifies the impact of urbanization on local microclimates in Kakkanad using satellite remote sensing. We aim to identify "Heat Traps" and propose data-driven mitigation strategies.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                
+                <div style="background: rgba(231, 76, 60, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+                    <h3 style="color: #e74c3c; margin-top: 0; font-size: 1.1rem;">
+                        <i class="fa-solid fa-fire"></i> The Problem
+                    </h3>
+                    <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 0;">
+                        Rapid concreting of the Infopark region has created a <strong>UHI effect</strong>, raising ambient surface temperatures significantly compared to rural surroundings.
+                    </p>
+                </div>
+
+                <div style="background: rgba(52, 152, 219, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid #3498db;">
+                    <h3 style="color: #3498db; margin-top: 0; font-size: 1.1rem;">
+                        <i class="fa-solid fa-satellite"></i> The Method
+                    </h3>
+                    <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 0;">
+                        We processed <strong>Landsat 8 & Sentinel-2</strong> imagery using Google Earth Engine to compute Land Surface Temperature (LST) and vegetation indices.
+                    </p>
+                </div>
+
+                <div style="background: rgba(46, 204, 113, 0.1); padding: 20px; border-radius: 8px; border-left: 4px solid #2ecc71;">
+                    <h3 style="color: #2ecc71; margin-top: 0; font-size: 1.1rem;">
+                        <i class="fa-solid fa-bullseye"></i> The Goal
+                    </h3>
+                    <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 0;">
+                        To create a "Thermal Masterplan" (The Blue-Green-Grey Framework) that guides municipal policy on zoning and retrofitting.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="intro">
+            <h2>1. The Phenomenon (Physics)</h2>
+            <p>An Urban Heat Island (UHI) occurs when a city experiences significantly warmer temperatures than its surrounding rural areas. This study investigates Kakkanad through the lens of thermal physics.</p>
+            
+            <div class="card">
+                <h3>The Physics Drivers</h3>
+                <ul>
+                    <li><strong>Albedo:</strong> Urban surfaces (asphalt, concrete) absorb sunlight, whereas rural vegetation reflects it.</li>
+                    <li><strong>Thermal Mass:</strong> Concrete acts as a "thermal sponge," releasing heat slowly at night.</li>
+                    <li><strong>Evapotranspiration:</strong> The loss of trees removes the natural cooling effect of water vapor release.</li>
+                </ul>
+            </div>
+
+            <h3>Governing Equation: Stefan-Boltzmann Law</h3>
+            <p>We bridge the gap between satellite-measured energy and actual temperature using this law:</p>
+            
+            <div class="math-block">
+                $$ E = \sigma \cdot \varepsilon \cdot T^4 $$
+            </div>
+            
+            <ul class="variable-list">
+                <li><span>\( E \)</span> : Radiant Energy measured by satellite</li>
+                <li><span>\( \sigma \)</span> : Stefan-Boltzmann constant</li>
+                <li><span>\( \varepsilon \)</span> : Emissivity (Efficiency of radiating heat)</li>
+                <li><span>\( T \)</span> : Land Surface Temperature (LST)</li>
+            </ul>
+        </section>
+
+        <section id="data">
+            <h2>2. Data Sources & Study Area</h2>
+            <p>We utilize multi-spectral imagery to derive thermal and physical properties of the terrain.</p>
+            
+            <div class="image-container">
+                <img src="satellite.png" alt="Study Area Map" style="width: 100%; border-radius: 8px; border: 1px solid #333;">
+                <p class="caption">Figure 1: ROI Boundary of Kakkanad Ward</p>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Sensor/Platform</th>
+                        <th>Bands Used</th>
+                        <th>Resolution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Thermal Imagery</td>
+                        <td>Landsat 8 OLI/TIRS</td>
+                        <td>B10 (Thermal), B4, B5</td>
+                        <td>30m (Resampled)</td>
+                    </tr>
+                    <tr>
+                        <td>Vegetation/Built-up</td>
+                        <td>Sentinel-2 MSI</td>
+                        <td>B4, B8, B11</td>
+                        <td>10m</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="lst">
+            <h2>3. LST Algorithm Implementation</h2>
+            <p>The core methodology for retrieving Land Surface Temperature involves four distinct computational steps.</p>
+
+            <div class="step-block">
+                <h3>Step A: Cloud Masking</h3>
+                <p>Clouds distort thermal readings. We use the QA_PIXEL band to filter out cloud and shadow pixels.</p>
+                <div class="code-block">
+<pre><code class="language-javascript">function maskLandsat(image){
+  var qa = image.select('QA_PIXEL');
+  // Mask clouds and cloud shadows using bitwise logic
+  var mask = qa.bitwiseAnd(1<<3).eq(0)
+              .and(qa.bitwiseAnd(1<<5).eq(0));
+  return image.updateMask(mask);
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h3>Step B: NDVI Calculation</h3>
+                <p>We need vegetation data to estimate surface emissivity.</p>
+                <div class="math-block">$$ NDVI = \frac{NIR - Red}{NIR + Red} $$</div>
+                <div class="code-block">
+<pre><code class="language-javascript">var ndvi = image.normalizedDifference(['SR_B5','SR_B4']).rename('NDVI');</code></pre>
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h3>Step C: Emissivity Correction (\(\varepsilon\))</h3>
+                <p>Different surfaces radiate heat differently. We derive Emissivity using Proportion of Vegetation (\(P_v\)).</p>
+                <div class="math-block">$$ P_v = \left( \frac{NDVI - NDVI_{min}}{NDVI_{max} - NDVI_{min}} \right)^2 $$</div>
+                <div class="math-block">$$ \varepsilon = 0.004 \cdot P_v + 0.986 $$</div>
+                <div class="code-block">
+<pre><code class="language-javascript">var pv = ndvi.subtract(min).divide(max.subtract(min)).pow(2);
+var emissivity = pv.multiply(0.004).add(0.986);</code></pre>
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h3>Step D: Single-Channel Algorithm (LST)</h3>
+                <p>Finally, we convert Brightness Temperature (BT) to LST.</p>
+                <div class="math-block">$$ LST = \frac{BT}{1 + (\lambda \cdot \frac{BT}{14380}) \cdot \ln(\varepsilon)} - 273.15 $$</div>
+                <div class="code-block">
+<pre><code class="language-javascript">var lst = thermal.expression(
+ '(BT / (1 + (0.00115 * BT / 14380) * log(eps))) - 273.15', {
+  'BT': thermal,
+  'eps': emissivity
+});</code></pre>
+                </div>
+            </div>
+
+            <div class="image-container">
+                <img src="lst_map.png" alt="LST Map" style="width: 100%; border-radius: 8px; border: 1px solid #333;">
+                <p class="caption">Figure 2: Final Land Surface Temperature Map of Kakkanad</p>
+            </div>
+        </section>
+
+        <section id="indices">
+            <h2>4. The Suspects: Spectral Analysis</h2>
+            <p>To understand the root cause of the heat, we move beyond visual maps to statistical correlation. We analyze two key spectral indices.</p>
+
+            <div class="grid-2">
+                
+                <div class="col">
+                    <h3>NDVI (Vegetation Health)</h3>
+                    
+                    <p><strong>The Theory:</strong> Healthy vegetation absorbs Red light (for photosynthesis) and strongly reflects Near-Infrared (NIR) light. We use this contrast to measure plant density.</p>
+                    
+                    <div class="math-block">$$ NDVI = \frac{NIR - Red}{NIR + Red} $$</div>
+                    <ul class="variable-list">
+                        <li><span>NIR</span>: Near-Infrared (High reflectance = Healthy)</li>
+                        <li><span>Red</span>: Visible Red (High absorption = Healthy)</li>
+                    </ul>
+
+                    <div class="code-block">
+<pre><code class="language-javascript">// Landsat 8 Calculation
+var ndvi = image.normalizedDifference(['SR_B5','SR_B4']);</code></pre>
+                    </div>
+
+                    <div class="image-container">
+                        <img src="ndvi.png" alt="NDVI Correlation Chart" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                        <p class="caption">Figure 4a: Scatter plot of Vegetation vs. Temperature</p>
+                    </div>
+
+                    <div class="highlight-box" style="border-left: 3px solid var(--accent-green); background: rgba(35, 134, 54, 0.1); padding: 15px;">
+                        <strong>The Verdict:</strong> The chart above reveals a distinct <strong>Negative Correlation</strong>. As NDVI increases (moving right), surface temperature drops significantly (by 4-5°C). This mathematically proves that vegetation is the primary cooling sink in Kakkanad.
+                    </div>
+                </div>
+
+                <div class="col">
+                    <h3>NDBI (Built-Up Density)</h3>
+                    
+                    <p><strong>The Theory:</strong> Urban materials like asphalt and concrete have a unique spectral signature—they reflect Short-Wave Infrared (SWIR) light more intensely than Near-Infrared (NIR).</p>
+                    
+                    <div class="math-block">$$ NDBI = \frac{SWIR - NIR}{SWIR + NIR} $$</div>
+                    <ul class="variable-list">
+                        <li><span>SWIR</span>: Short-Wave Infrared (Reflected by concrete)</li>
+                        <li><span>NIR</span>: Near-Infrared (Reflected by trees)</li>
+                    </ul>
+
+                    <div class="code-block">
+<pre><code class="language-javascript">// Landsat 8 Calculation
+var ndbi = image.normalizedDifference(['SR_B6','SR_B5']);</code></pre>
+                    </div>
+
+                    <div class="image-container">
+                        <img src="ndbi.png" alt="NDBI Correlation Chart" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                        <p class="caption">Figure 4b: Scatter plot of Concrete vs. Temperature</p>
+                    </div>
+
+                    <div class="highlight-box" style="border-left: 3px solid var(--accent-red); background: rgba(218, 54, 51, 0.1); padding: 15px;">
+                        <strong>The Verdict:</strong> The chart confirms a strong <strong>Positive Correlation</strong>. As concrete density rises (moving right), temperature spikes. This identifies impervious surfaces as the "Heating Element" driving the UHI effect.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="export">
+            <h2>5. Integration with QGIS</h2>
+            
+            <p><strong>The Theory (Interoperability):</strong> While Google Earth Engine handles the heavy computation (Petabyte-scale processing), desktop GIS (QGIS) is required for precise cartographic layout and vector-raster overlay. This step demonstrates the transition from cloud computing to local analysis.</p>
+
+            <p>We use the <code>Export</code> module to convert the raw pixel data into a GeoTIFF format.</p>
+            <div class="code-block">
+<pre><code class="language-javascript">// Exporting the computed LST matrix to Drive
+Export.image.toDrive({
+  image: lst,
+  description: 'Kakkanad_LST_Analysis',
+  scale: 30, // 30m Native Resolution
+  region: roi,
+  fileFormat: 'GeoTIFF'
+});</code></pre>
+            </div>
+
+            <div class="image-container">
+                <img src="qgis_screenshot.png" alt="QGIS Interface Screenshot" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                <p class="caption">Figure 5: The LST Data successfully imported into QGIS 3.28 (Firenze)</p>
+            </div>
+
+            <div class="highlight-box" style="border-left: 3px solid var(--accent-blue); background: rgba(88, 166, 255, 0.1); padding: 15px;">
+                <strong>The Verdict:</strong> Successful export confirms that our LST data is spatially referenced (EPSG:4326) and pixel-aligned with local ward boundaries. This enables further "Hotspot Analysis" which cannot be easily performed in a web browser.
+            </div>
+        </section>
+
+        <section id="hotspot">
+            <h2>6. Hotspot Identification</h2>
+            <p>We isolated the top 15% thermal zones using Raster Calculator logic.</p>
+            
+            <div class="highlight-box">
+                <strong>Logic:</strong> <code>"LST" > 37°C</code>
+            </div>
+
+            <div class="image-container">
+                <img src="hotspot_map.png" alt="Thermal Hotspot Map" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);">
+                
+                <p class="caption">Figure 4: Thermal Hotspots (>37°C)</p>
+            </div>
+        </section>
+
+        <section id="stats">
+            <h2>7. Zonal Statistics</h2>
+            <p>Using QGIS Raster Analysis, we extracted the thermal extremes of the Kakkanad ward. These values validate the presence of significant urban heating.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px;">
+                
+                <div style="background: rgba(255, 59, 48, 0.1); border: 1px solid rgba(255, 59, 48, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
+                    <i class="fa-solid fa-temperature-arrow-up" style="color: #ff3b30; font-size: 2rem; margin-bottom: 10px;"></i>
+                    <h3 style="margin: 0; color: #ff3b30; font-size: 2.5rem;">45.17°C</h3>
+                    <p style="margin: 5px 0 0; color: #ccc; font-size: 0.9rem;">Maximum LST</p>
+                </div>
+
+                <div style="background: rgba(46, 213, 115, 0.1); border: 1px solid rgba(46, 213, 115, 0.3); padding: 20px; border-radius: 12px; text-align: center;">
+                    <i class="fa-solid fa-temperature-arrow-down" style="color: #2ed573; font-size: 2rem; margin-bottom: 10px;"></i>
+                    <h3 style="margin: 0; color: #2ed573; font-size: 2.5rem;">30.41°C</h3>
+                    <p style="margin: 5px 0 0; color: #ccc; font-size: 0.9rem;">Minimum LST</p>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 12px; text-align: center;">
+                    <i class="fa-solid fa-chart-line" style="color: #ffffff; font-size: 2rem; margin-bottom: 10px;"></i>
+                    <h3 style="margin: 0; color: #ffffff; font-size: 2.5rem;">14.7°C</h3>
+                    <p style="margin: 5px 0 0; color: #ccc; font-size: 0.9rem;">Thermal Variance</p>
+                </div>
+
+            </div>
+
+            <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #666;">
+                <i class="fa-solid fa-database"></i> Data Source: Landsat 8 OLI/TIRS (Band 10) processed via QGIS 3.28 Firenze.
+            </p>
+        </section>
+
+        <section id="recommendations">
+            <h2>8. The "Kakkanad Blue-Green-Grey" Resilience Framework</h2>
+            
+            <div style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.02) 100%); border-left: 5px solid #3498db; padding: 20px; margin-bottom: 50px; border-radius: 8px;">
+                <h3 style="margin-top: 0; color: #3498db; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-layer-group"></i> Core Concept: Zoned Mitigation
+                </h3>
+                <p style="color: #ddd; line-height: 1.6; font-size: 1rem; margin-bottom: 0;">
+                    We matched specific thermal mechanisms to land-use types. Below is the detailed breakdown for each of the three intervention zones.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 80px; border-bottom: 1px solid #333; padding-bottom: 40px;">
+                <h3 style="color: #bdc3c7; font-size: 1.8rem; border-left: 5px solid #bdc3c7; padding-left: 20px; margin-bottom: 25px;">
+                    <i class="fa-solid fa-industry"></i> The Grey Zone (Infopark)
+                </h3>
+                <div style="background: rgba(231, 76, 60, 0.08); border: 1px solid rgba(231, 76, 60, 0.3); padding: 20px; border-radius: 8px; margin-bottom: 10px;">
+                    <strong style="color: #e74c3c; font-size: 1.1rem; display: block; margin-bottom: 10px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> The Heat Trap Mechanism
+                    </strong>
+                    <p style="color: #ddd; margin: 0; line-height: 1.5;">
+                        This zone is dominated by High NDBI (Concrete) structures. The dense warehouses and IT towers trap shortwave solar radiation during the day, creating a "Thermal Mass" that radiates heat back into the city at night.
+                    </p>
+                </div>
+                <div style="text-align: center; color: #555; font-size: 1.5rem; margin: 10px 0;">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </div>
+                <div style="background: rgba(46, 204, 113, 0.08); border: 1px solid rgba(46, 204, 113, 0.3); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <strong style="color: #2ecc71; font-size: 1.1rem; display: block; margin-bottom: 10px;">
+                        <i class="fa-solid fa-check-circle"></i> The Engineering Resolution
+                    </strong>
+                    <ul style="color: #ddd; margin: 0; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>Cool Albedo Retrofit:</strong> Mandate white roofing (SRI > 78) on industrial sheds to reflect 80% of sunlight.</li>
+                        <li><strong>Bio-Facades:</strong> Install wire-mesh vertical gardens on west-facing walls to block peak afternoon radiation.</li>
+                    </ul>
+                </div>
+                <div style="border: 1px solid #444; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                    <img src="zone_grey.png" style="width: 100%; display: block;" alt="Grey Zone Map">
+                    <p style="background: #111; color: #888; text-align: center; padding: 10px; margin: 0; font-size: 0.85rem;">
+                        Target Area: Infopark Phase 1 & 2 Industrial Cluster
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 80px; border-bottom: 1px solid #333; padding-bottom: 40px;">
+                <h3 style="color: #2ecc71; font-size: 1.8rem; border-left: 5px solid #2ecc71; padding-left: 20px; margin-bottom: 25px;">
+                    <i class="fa-solid fa-road"></i> The Green Zone (Transit Corridors)
+                </h3>
+                <div style="background: rgba(231, 76, 60, 0.08); border: 1px solid rgba(231, 76, 60, 0.3); padding: 20px; border-radius: 8px; margin-bottom: 10px;">
+                    <strong style="color: #e74c3c; font-size: 1.1rem; display: block; margin-bottom: 10px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> The Heat Trap Mechanism
+                    </strong>
+                    <p style="color: #ddd; margin: 0; line-height: 1.5;">
+                        The Seaport-Airport Road acts as a heat generator. Dark asphalt has extremely low albedo (absorbs heat) and re-radiates it directly to pedestrians and nearby buildings, creating a linear heat island.
+                    </p>
+                </div>
+                <div style="text-align: center; color: #555; font-size: 1.5rem; margin: 10px 0;">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </div>
+                <div style="background: rgba(46, 204, 113, 0.08); border: 1px solid rgba(46, 204, 113, 0.3); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <strong style="color: #2ecc71; font-size: 1.1rem; display: block; margin-bottom: 10px;">
+                        <i class="fa-solid fa-check-circle"></i> The Engineering Resolution
+                    </strong>
+                    <ul style="color: #ddd; margin: 0; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>The Green Grid:</strong> Establish a continuous tree canopy corridor. Our NDVI model predicts a 3°C drop in street temperature with 20% canopy increase.</li>
+                        <li><strong>Porous Paving:</strong> Replace parking strips with permeable blocks to allow evaporative cooling.</li>
+                    </ul>
+                </div>
+                <div style="border: 1px solid #444; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                    <img src="zone_green.png" style="width: 100%; display: block;" alt="Green Zone Map">
+                    <p style="background: #111; color: #888; text-align: center; padding: 10px; margin: 0; font-size: 0.85rem;">
+                        Target Area: Seaport-Airport Road & Main Transit Lines
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 50px;">
+                <h3 style="color: #3498db; font-size: 1.8rem; border-left: 5px solid #3498db; padding-left: 20px; margin-bottom: 25px;">
+                    <i class="fa-solid fa-water"></i> The Blue Zone (Wetlands)
+                </h3>
+                <div style="background: rgba(231, 76, 60, 0.08); border: 1px solid rgba(231, 76, 60, 0.3); padding: 20px; border-radius: 8px; margin-bottom: 10px;">
+                    <strong style="color: #e74c3c; font-size: 1.1rem; display: block; margin-bottom: 10px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> The Heat Trap Mechanism
+                    </strong>
+                    <p style="color: #ddd; margin: 0; line-height: 1.5;">
+                        Rapid urban encroachment is threatening the Edachira basin. As water bodies are filled for construction, the region loses its natural "Evaporative Heat Sink," causing ambient temperatures to spike.
+                    </p>
+                </div>
+                <div style="text-align: center; color: #555; font-size: 1.5rem; margin: 10px 0;">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </div>
+                <div style="background: rgba(46, 204, 113, 0.08); border: 1px solid rgba(46, 204, 113, 0.3); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <strong style="color: #2ecc71; font-size: 1.1rem; display: block; margin-bottom: 10px;">
+                        <i class="fa-solid fa-check-circle"></i> The Engineering Resolution
+                    </strong>
+                    <ul style="color: #ddd; margin: 0; padding-left: 20px; line-height: 1.6;">
+                        <li><strong>No-Build Buffer:</strong> Enforce a strict 50m construction ban around the Edachira water body.</li>
+                        <li><strong>Conservation Policy:</strong> Designate the basin as a "Thermal Protected Zone" in the municipal master plan.</li>
+                    </ul>
+                </div>
+                <div style="border: 1px solid #444; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                    <img src="zone_blue.png" style="width: 100%; display: block;" alt="Blue Zone Map">
+                    <p style="background: #111; color: #888; text-align: center; padding: 10px; margin: 0; font-size: 0.85rem;">
+                        Target Area: Edachira Basin & Surrounding Wetlands
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer style="margin-top: 100px; border-top: 1px solid #333; padding: 50px 20px; text-align: center; background: rgba(0,0,0,0.2);">
+            
+            <h3 style="color: #fff; margin-bottom: 10px;">End of Analysis</h3>
+            <p style="color: #888; margin-bottom: 30px; font-size: 0.9rem;">
+                Challenge 4: Urban Heat Island | RSET, Kakkanad
+            </p>
+
+            <a href="https://github.com/supernaturaljoe364/Undampuri_GIS" target="_blank" style="text-decoration: none;">
+                <div style="display: inline-flex; align-items: center; gap: 10px; background: #333; color: #fff; padding: 12px 25px; border-radius: 30px; border: 1px solid #555; transition: all 0.3s ease;" 
+                     onmouseover="this.style.background='#fff'; this.style.color='#000';" 
+                     onmouseout="this.style.background='#333'; this.style.color='#fff';">
+                    <i class="fa-brands fa-github" style="font-size: 1.2rem;"></i>
+                    <span style="font-weight: bold;">View Source Code on GitHub</span>
+                </div>
+            </a>
+
+            <p style="margin-top: 40px; font-size: 0.8rem; color: #444;">
+                &copy; 2026 Urban Resilience Team. Built with QGIS 3.28 & Google Earth Engine.
+            </p>
+
+        </footer>
+
+    </main>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) {
+                    li.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
